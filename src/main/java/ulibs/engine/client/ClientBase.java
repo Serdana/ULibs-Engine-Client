@@ -74,6 +74,12 @@ public abstract class ClientBase extends CommonBase {
 	}
 	
 	@Override
+	protected void preInitWrap() {
+		internalRender();
+		super.preInitWrap();
+	}
+	
+	@Override
 	protected final void initWrap() {
 		Console.print(WarningType.Info, "Initialization started...");
 		loadingState = LoadingState.INIT;
