@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 import main.java.ulibs.common.utils.Console;
 import main.java.ulibs.common.utils.Console.WarningType;
-import main.java.ulibs.engine.client.ClientBase;
+import main.java.ulibs.engine.common.CommonBase;
 
 public class GetResource {
 	/** A blank debug image that'll be used in the event {@link GetResource#getTexture(String, String)} could not find any image at the given path */
@@ -27,13 +27,13 @@ public class GetResource {
 			folder += "/";
 		}
 		
-		if (GetResource.class.getResourceAsStream(ClientBase.getAssetLocation() + "textures/" + folder + textureName + ".png") == null) {
-			Console.print(WarningType.Error, "Cannot find texture : '" + ClientBase.getAssetLocation() + "textures/" + folder + textureName + ".png'");
+		if (GetResource.class.getResourceAsStream(CommonBase.getAssetLocation() + "textures/" + folder + textureName + ".png") == null) {
+			Console.print(WarningType.Error, "Cannot find texture : '" + CommonBase.getAssetLocation() + "textures/" + folder + textureName + ".png'");
 			return NIL;
 		}
 		
 		try {
-			return ImageIO.read(GetResource.class.getResourceAsStream(ClientBase.getAssetLocation() + "textures/" + folder + textureName + ".png"));
+			return ImageIO.read(GetResource.class.getResourceAsStream(CommonBase.getAssetLocation() + "textures/" + folder + textureName + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return NIL;

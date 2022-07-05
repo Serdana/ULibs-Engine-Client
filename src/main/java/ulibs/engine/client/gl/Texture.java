@@ -2,7 +2,8 @@ package main.java.ulibs.engine.client.gl;
 
 import java.awt.image.BufferedImage;
 
-import org.lwjgl.opengl.GL46;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 import main.java.ulibs.engine.client.utils.BufferUtils;
 
@@ -23,7 +24,7 @@ public class Texture {
 	}
 	
 	public void bind() {
-		GL46.glBindTexture(GL46.GL_TEXTURE_2D, textureID);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 	}
 	
 	private int load(BufferedImage img) {
@@ -38,14 +39,14 @@ public class Texture {
 			data[i] = a << 24 | b << 16 | g << 8 | r;
 		}
 		
-		int scaleType = useAntiAliasing ? GL46.GL_LINEAR : GL46.GL_NEAREST;
+		int scaleType = useAntiAliasing ? GL11.GL_LINEAR : GL11.GL_NEAREST;
 		
-		int result = GL46.glGenTextures();
-		GL46.glBindTexture(GL46.GL_TEXTURE_2D, result);
-		GL46.glTexParameterIi(GL46.GL_TEXTURE_2D, GL46.GL_TEXTURE_MIN_FILTER, scaleType);
-		GL46.glTexParameterIi(GL46.GL_TEXTURE_2D, GL46.GL_TEXTURE_MAG_FILTER, scaleType);
-		GL46.glTexImage2D(GL46.GL_TEXTURE_2D, 0, GL46.GL_RGBA, width, height, 0, GL46.GL_RGBA, GL46.GL_UNSIGNED_BYTE, BufferUtils.createIntBuffer(data));
-		GL46.glBindTexture(GL46.GL_TEXTURE_2D, 0);
+		int result = GL11.glGenTextures();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, result);
+		GL30.glTexParameterIi(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, scaleType);
+		GL30.glTexParameterIi(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, scaleType);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, BufferUtils.createIntBuffer(data));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		return result;
 	}
 }

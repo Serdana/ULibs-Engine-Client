@@ -165,7 +165,7 @@ public abstract class ClientBase extends CommonBase {
 		
 		try {
 			GLH.initGL();
-		} catch (GLException e) {
+		} catch (@SuppressWarnings("unused") GLException e) {
 			return;
 		}
 		
@@ -173,7 +173,7 @@ public abstract class ClientBase extends CommonBase {
 		
 		try {
 			window = GLH.createWindow(title, defaultWidth, defaultHeight);
-		} catch (GLException e) {
+		} catch (@SuppressWarnings("unused") GLException e) {
 			return;
 		}
 		

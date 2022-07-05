@@ -5,7 +5,10 @@ import java.nio.IntBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL46;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
 import main.java.ulibs.common.utils.Console;
 import main.java.ulibs.common.utils.Console.WarningType;
@@ -67,30 +70,30 @@ public class KeyedVertexArray<T> {
 		count = indices.length;
 		if (!wasSetup) {
 			wasSetup = true;
-			vao = GL46.glGenVertexArrays();
-			vbo = GL46.glGenBuffers();
-			tbo = GL46.glGenBuffers();
-			ibo = GL46.glGenBuffers();
+			vao = GL30.glGenVertexArrays();
+			vbo = GL15.glGenBuffers();
+			tbo = GL15.glGenBuffers();
+			ibo = GL15.glGenBuffers();
 		}
 		
-		GL46.glBindVertexArray(vao);
+		GL30.glBindVertexArray(vao);
 		
-		GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, vbo);
-		GL46.glBufferData(GL46.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(vertices), GL46.GL_DYNAMIC_DRAW);
-		GL46.glVertexAttribPointer(Shader.VERTEX_ATTRIB, 3, GL46.GL_FLOAT, false, 0, 0);
-		GL46.glEnableVertexAttribArray(Shader.VERTEX_ATTRIB);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(vertices), GL15.GL_DYNAMIC_DRAW);
+		GL20.glVertexAttribPointer(Shader.VERTEX_ATTRIB, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL20.glEnableVertexAttribArray(Shader.VERTEX_ATTRIB);
 		
-		GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, tbo);
-		GL46.glBufferData(GL46.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(tcs), GL46.GL_DYNAMIC_DRAW);
-		GL46.glVertexAttribPointer(Shader.TCOORD_ATTRIB, 2, GL46.GL_FLOAT, false, 0, 0);
-		GL46.glEnableVertexAttribArray(Shader.TCOORD_ATTRIB);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, tbo);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(tcs), GL15.GL_DYNAMIC_DRAW);
+		GL20.glVertexAttribPointer(Shader.TCOORD_ATTRIB, 2, GL11.GL_FLOAT, false, 0, 0);
+		GL20.glEnableVertexAttribArray(Shader.TCOORD_ATTRIB);
 		
-		GL46.glBindBuffer(GL46.GL_ELEMENT_ARRAY_BUFFER, ibo);
-		GL46.glBufferData(GL46.GL_ELEMENT_ARRAY_BUFFER, BufferUtils.createIntBuffer(indices), GL46.GL_DYNAMIC_DRAW);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
+		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, BufferUtils.createIntBuffer(indices), GL15.GL_DYNAMIC_DRAW);
 		
-		GL46.glBindBuffer(GL46.GL_ELEMENT_ARRAY_BUFFER, 0);
-		GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, 0);
-		GL46.glBindVertexArray(0);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		GL30.glBindVertexArray(0);
 	}
 	
 	/** Binds self to be used for rendering
@@ -101,23 +104,23 @@ public class KeyedVertexArray<T> {
 			Console.print(WarningType.FatalError, "KeyedVertexArray was not setup!", new GLException(Reason.notSetupVertexArray));
 		}
 		
-		GL46.glBindVertexArray(vao);
-		GL46.glBindBuffer(GL46.GL_ELEMENT_ARRAY_BUFFER, ibo);
+		GL30.glBindVertexArray(vao);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
 	}
 	
 	/** Unbinds self and frees resources
 	 * <br>
 	 * Should be called when done! */
 	public void unbind() {
-		GL46.glBindVertexArray(0);
-		GL46.glBindBuffer(GL46.GL_ELEMENT_ARRAY_BUFFER, 0);
+		GL30.glBindVertexArray(0);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	
 	/** Draws the stored data
 	 * <br>
 	 * Must call {@link #bind} before using! */
 	public void draw() {
-		GL46.glDrawElements(GL46.GL_TRIANGLES, count, GL46.GL_UNSIGNED_INT, 0);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, count, GL11.GL_UNSIGNED_INT, 0);
 	}
 	
 	public void drawOnce() {
