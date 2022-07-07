@@ -121,8 +121,8 @@ public abstract class ClientBase extends CommonBase {
 	@Override
 	protected void tick() {
 		for (IRenderer r : renderers) {
-			if (r instanceof ITickable) {
-				((ITickable) r).tick();
+			if (r instanceof ITickable t) {
+				t.tick();
 			}
 		}
 	}
