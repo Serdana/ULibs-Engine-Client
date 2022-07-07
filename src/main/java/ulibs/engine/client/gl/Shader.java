@@ -65,7 +65,7 @@ public abstract class Shader {
 	/** Binds the shader for use */
 	public void bind() {
 		if (!wasSetup) {
-			Console.print(WarningType.FatalError, "Tried to use shader '" + name + "' but it was never setup!", new GLException(Reason.notSetupShader));
+			Console.print(WarningType.FatalError, "Tried to use shader '" + name + "' but it was never setup!", new GLException(Reason.NOT_SETUP_SHADER)).printStackTrace();
 			return;
 		}
 		
@@ -119,12 +119,9 @@ public abstract class Shader {
 	}
 	
 	private static int load(String name, String internalTitle) {
-		String vert = loadAsString(Shader.class.getResourceAsStream("/main/resources/" + internalTitle + "/assets/shaders/" + name + ".vert"));
-		String frag = loadAsString(Shader.class.getResourceAsStream("/main/resources/" + internalTitle + "/assets/shaders/" + name + ".frag"));
-		
 		int program = GL20.glCreateProgram(), vertID = GL20.glCreateShader(GL20.GL_VERTEX_SHADER), fragID = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-		GL20.glShaderSource(vertID, vert);
-		GL20.glShaderSource(fragID, frag);
+		GL20.glShaderSource(vertID, loadAsString(Shader.class.getResourceAsStream("/main/resources/" + internalTitle + "/assets/shaders/" + name + ".vert")));
+		GL20.glShaderSource(fragID, loadAsString(Shader.class.getResourceAsStream("/main/resources/" + internalTitle + "/assets/shaders/" + name + ".frag")));
 		
 		GL20.glCompileShader(vertID);
 		if (GL20.glGetShaderi(vertID, GL20.GL_COMPILE_STATUS) == GLH.FALSE) {

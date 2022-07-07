@@ -101,7 +101,8 @@ public class KeyedVertexArray<T> {
 	 * Must be called before using! */
 	public void bind() {
 		if (!wasSetup) {
-			Console.print(WarningType.FatalError, "KeyedVertexArray was not setup!", new GLException(Reason.notSetupVertexArray));
+			Console.print(WarningType.FatalError, "KeyedVertexArray was not setup!", new GLException(Reason.NOT_SETUP_VERTEX_ARRAY)).printStackTrace();
+			return;
 		}
 		
 		GL30.glBindVertexArray(vao);
@@ -172,14 +173,8 @@ public class KeyedVertexArray<T> {
 		}
 		
 		FloatBuffer buf0 = FloatBuffer.allocate(verticiesSize);
-		for (VertexArrayData data : map.values()) {
-			for (GeoData gd : data.datas) {
-				buf0.put(gd.vertices);
-			}
-		}
-		
-		buf0.flip();
-		verticesCache = buf0.array();
+		map.values().forEach(c -> c.datas.forEach(gd -> buf0.put(gd.vertices)));
+		verticesCache = buf0.flip().array();
 		
 		int indicesSize = 0;
 		for (VertexArrayData data : map.values()) {
@@ -194,7 +189,7 @@ public class KeyedVertexArray<T> {
 			for (GeoData gd : data.datas) {
 				int[] ids = gd.indices.clone();
 				for (int i = 0; i < ids.length; i++) {
-					ids[i] = ids[i] + count * 4;
+					ids[i] += count * 4;
 				}
 				
 				buf1.put(ids);
@@ -202,8 +197,7 @@ public class KeyedVertexArray<T> {
 			}
 		}
 		
-		buf1.flip();
-		indicesCache = buf1.array();
+		indicesCache = buf1.flip().array();
 		
 		int tcsSize = 0;
 		for (VertexArrayData data : map.values()) {
@@ -213,13 +207,7 @@ public class KeyedVertexArray<T> {
 		}
 		
 		FloatBuffer buf2 = FloatBuffer.allocate(tcsSize);
-		for (VertexArrayData data : map.values()) {
-			for (GeoData gd : data.datas) {
-				buf2.put(gd.tcs);
-			}
-		}
-		
-		buf2.flip();
-		tcsCache = buf2.array();
+		map.values().forEach(c -> c.datas.forEach(gd -> buf2.put(gd.tcs)));
+		tcsCache = buf2.flip().array();
 	}
 }

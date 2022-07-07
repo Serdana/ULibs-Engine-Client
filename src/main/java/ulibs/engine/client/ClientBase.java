@@ -51,7 +51,7 @@ public abstract class ClientBase extends CommonBase {
 	
 	private ScreenLoading loadingScreen;
 	
-	private static EnumScreenTearFix screenFix = EnumScreenTearFix.vsync;
+	private static EnumScreenTearFix screenFix = EnumScreenTearFix.VSYNC;
 	
 	private final List<IRenderer> renderers = new ArrayList<IRenderer>();
 	private final Supplier<List<Shader>> shadersToSetup;
@@ -87,7 +87,7 @@ public abstract class ClientBase extends CommonBase {
 		loadingState = LoadingState.CONFIG;
 		ConfigH.loadConfigs();
 		loadingState = LoadingState.RENDERERS;
-		rendererSetup();
+		renderers.forEach(IRenderer::setupGL);
 		Console.print(WarningType.Info, "Initialization finished!");
 	}
 	
@@ -118,12 +118,6 @@ public abstract class ClientBase extends CommonBase {
 		GLH.swapBuffers(window);
 	}
 	
-	private void rendererSetup() {
-		for (IRenderer r : renderers) {
-			r.setupGL();
-		}
-	}
-	
 	@Override
 	protected void tick() {
 		for (IRenderer r : renderers) {
@@ -134,9 +128,7 @@ public abstract class ClientBase extends CommonBase {
 	}
 	
 	protected void render() {
-		for (IRenderer r : renderers) {
-			r.renderAll();
-		}
+		renderers.forEach(IRenderer::renderAll);
 	}
 	
 	/** Adds an {@link IRenderer} to a list allowing automatic handling
@@ -191,15 +183,9 @@ public abstract class ClientBase extends CommonBase {
 					}
 					
 					switch (action) {
-						case GLFW.GLFW_PRESS:
-							getKeyHandler().onPress(Inputs.getKeyFromInt(key));
-							break;
-						case GLFW.GLFW_RELEASE:
-							getKeyHandler().onRelease(Inputs.getKeyFromInt(key));
-							break;
-						case GLFW.GLFW_REPEAT:
-							getKeyHandler().onRepeat(Inputs.getKeyFromInt(key));
-							break;
+						case GLFW.GLFW_PRESS -> getKeyHandler().onPress(Inputs.getKeyFromInt(key));
+						case GLFW.GLFW_RELEASE -> getKeyHandler().onRelease(Inputs.getKeyFromInt(key));
+						case GLFW.GLFW_REPEAT -> getKeyHandler().onRepeat(Inputs.getKeyFromInt(key));
 					}
 				}
 			});
@@ -214,15 +200,9 @@ public abstract class ClientBase extends CommonBase {
 					}
 					
 					switch (action) {
-						case GLFW.GLFW_PRESS:
-							getMouseHandler().onPress(Inputs.getMouseFromInt(button));
-							break;
-						case GLFW.GLFW_RELEASE:
-							getMouseHandler().onRelease(Inputs.getMouseFromInt(button));
-							break;
-						case GLFW.GLFW_REPEAT:
-							getMouseHandler().onRepeat(Inputs.getMouseFromInt(button));
-							break;
+						case GLFW.GLFW_PRESS -> getMouseHandler().onPress(Inputs.getMouseFromInt(button));
+						case GLFW.GLFW_RELEASE -> getMouseHandler().onRelease(Inputs.getMouseFromInt(button));
+						case GLFW.GLFW_REPEAT -> getMouseHandler().onRepeat(Inputs.getMouseFromInt(button));
 					}
 				}
 			});
@@ -275,9 +255,7 @@ public abstract class ClientBase extends CommonBase {
 					s.onResize();
 				}
 				GLH.unbindShader();
-				for (IRenderer r : renderers) {
-					r.onResize();
-				}
+				renderers.forEach(IRenderer::onResize);
 			}
 		});
 		
@@ -286,7 +264,7 @@ public abstract class ClientBase extends CommonBase {
 		
 		GLH.createCapabilities();
 		
-		GLH.setVSync(screenFix == EnumScreenTearFix.vsync);
+		GLH.setVSync(screenFix == EnumScreenTearFix.VSYNC);
 		GLH.clearColor(new Color(20, 20, 20, 1));
 		GLH.enableDepth();
 		GLH.enableBlend();
@@ -324,21 +302,21 @@ public abstract class ClientBase extends CommonBase {
 			
 			GLH.disableWindowDecorations(window);
 			switch (screenFix) {
-				case experimental:
-					GLH.setVSync(false);
-					GLH.setWindowData(window, 0, -1, GLH.getMonitorSize().addY(2));
-					break;
-				case off:
+				case OFF -> {
 					GLH.setVSync(false);
 					GLH.setWindowData(window, 0, 0, GLH.getMonitorSize());
-					break;
-				case vsync:
+				}
+				case VSYNC -> {
 					GLH.setVSync(true);
 					GLH.setWindowData(window, 0, 0, GLH.getMonitorSize());
-					break;
+				}
+				case EXPERIMENTAL -> {
+					GLH.setVSync(false);
+					GLH.setWindowData(window, 0, -1, GLH.getMonitorSize().addY(2));
+				}
 			}
 		} else {
-			GLH.setVSync(screenFix == EnumScreenTearFix.vsync);
+			GLH.setVSync(screenFix == EnumScreenTearFix.VSYNC);
 			GLH.enableWindowDecorations(window);
 			GLH.setWindowData(window, lastWindowX, lastWindowY, lastWidth, lastHeight);
 		}

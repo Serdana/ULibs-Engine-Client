@@ -140,9 +140,7 @@ public class GLH {
 	public static long createWindow(String title, int width, int height) throws GLException {
 		long window = GLFW.glfwCreateWindow(width, height, title, NULL, NULL);
 		if (window == GLH.NULL) {
-			GLException ex = new GLException(Reason.failedToInitWindow);
-			Console.print(WarningType.FatalError, "Failed to initialize Window!", ex);
-			throw ex;
+			throw Console.print(WarningType.FatalError, "Failed to initialize Window!", new GLException(Reason.FAILED_TO_INIT_WINDOW));
 		}
 		
 		return window;
@@ -182,9 +180,7 @@ public class GLH {
 	 */
 	public static void initGL() throws GLException {
 		if (!GLFW.glfwInit()) {
-			GLException ex = new GLException(Reason.failedToInitGL);
-			Console.print(WarningType.FatalError, "Failed to initialize OpenGL!", ex);
-			throw ex;
+			throw Console.print(WarningType.FatalError, "Failed to initialize OpenGL!", new GLException(Reason.FAILED_TO_INIT_GL));
 		}
 	}
 	

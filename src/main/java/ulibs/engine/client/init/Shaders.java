@@ -27,9 +27,7 @@ public class Shaders {
 		object = add(new ShaderTextured(0f, 16f, 0f, 9f, -1f, 10f));
 		objectTextureless = add(new ShaderTextureless(0f, 16f, 0f, 9f, -1f, 10f));
 		
-		for (Shader s : ALL) {
-			s.setup();
-		}
+		ALL.forEach(Shader::setup);
 	}
 	
 	private static <T extends Shader> T add(T s) {

@@ -27,7 +27,7 @@ public class Inputs {
 	}
 	
 	/** This is only used to ensure {@link IInputHandler} uses one of the correct enums */
-	interface IInputEnum {
+	sealed interface IInputEnum permits EnumKeyInput, EnumMouseInput {
 		
 	}
 }

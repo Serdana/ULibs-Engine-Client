@@ -14,9 +14,7 @@ public class BufferUtils {
 	 * @return A {@link ByteBuffer} with the data from given array
 	 */
 	public static ByteBuffer createByteBuffer(byte[] array) {
-		ByteBuffer result = ByteBuffer.allocateDirect(array.length).order(ByteOrder.nativeOrder());
-		result.put(array).flip();
-		return result;
+		return ByteBuffer.allocateDirect(array.length).order(ByteOrder.nativeOrder()).put(array).flip();
 	}
 	
 	/** Creates a {@link FloatBuffer} from the given array
@@ -24,9 +22,7 @@ public class BufferUtils {
 	 * @return A {@link FloatBuffer} with the data from given array
 	 */
 	public static FloatBuffer createFloatBuffer(float[] array) {
-		FloatBuffer result = ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asFloatBuffer();
-		result.put(array).flip();
-		return result;
+		return ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asFloatBuffer().put(array).flip();
 	}
 	
 	/** Creates a {@link IntBuffer} from the given array
@@ -34,8 +30,6 @@ public class BufferUtils {
 	 * @return A {@link IntBuffer} with the data from given array
 	 */
 	public static IntBuffer createIntBuffer(int[] array) {
-		IntBuffer result = ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
-		result.put(array).flip();
-		return result;
+		return ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer().put(array).flip();
 	}
 }

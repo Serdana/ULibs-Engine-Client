@@ -30,9 +30,7 @@ public class ResizeHandlerScale extends ResizeHandler {
 	
 	@Override
 	public Vec2i setMousePos(int x, int y) {
-		float mousePosX = (((float) x - getViewportX()) / (getViewportW() / getHudW()));
-		float mousePosY = (((float) y - getViewportY()) / (getViewportH() / getHudH()));
-		return new Vec2i(Math.round(mousePosX), Math.round(mousePosY));
+		return new Vec2i(Math.round(((float) x - getViewportX()) / (getViewportW() / getHudW())), Math.round(((float) y - getViewportY()) / (getViewportH() / getHudH())));
 	}
 	
 	@Override

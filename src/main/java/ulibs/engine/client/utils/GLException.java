@@ -8,10 +8,10 @@ public class GLException extends Exception {
 	}
 	
 	public enum Reason {
-		failedToInitGL("Failed to initialize OpenGL!"),
-		failedToInitWindow("Failed to initialize Window!"),
-		notSetupVertexArray("Tried to use a non initialized vertex array!"),
-		notSetupShader("Tried to use a non initialized shader!");
+		FAILED_TO_INIT_GL("Failed to initialize OpenGL!"),
+		FAILED_TO_INIT_WINDOW("Failed to initialize Window!"),
+		NOT_SETUP_VERTEX_ARRAY("Tried to use a non initialized vertex array!"),
+		NOT_SETUP_SHADER("Tried to use a non initialized shader!");
 		
 		private final String print;
 		

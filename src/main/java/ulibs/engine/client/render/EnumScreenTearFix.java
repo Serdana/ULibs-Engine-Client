@@ -8,7 +8,7 @@ import main.java.ulibs.engine.client.ClientBase;
  */
 @SuppressWarnings("javadoc")
 public enum EnumScreenTearFix {
-	off,
-	vsync,
-	experimental;
+	OFF,
+	VSYNC,
+	EXPERIMENTAL;
 }

@@ -33,15 +33,11 @@ public enum EnumMouseInput implements IInputEnum {
 	
 	@Override
 	public String toString() {
-		switch (id) {
-			case 1:
-				return "Mouse: '1' (Left)";
-			case 2:
-				return "Mouse: '2' (Right)";
-			case 3:
-				return "Mouse: '3' (Middle)";
-			default:
-				return "Mouse: '" + id + "'";
-		}
+		return switch (id) {
+			case 1 -> "Mouse: '1' (Left)";
+			case 2 -> "Mouse: '2' (Right)";
+			case 3 -> "Mouse: '3' (Middle)";
+			default -> "Mouse: '" + id + "'";
+		};
 	}
 }

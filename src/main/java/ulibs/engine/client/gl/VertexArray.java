@@ -20,8 +20,6 @@ public class VertexArray extends VertexArrayData {
 	 * <br>
 	 * Must be called before using! */
 	public void setup() {
-		float[] vertices = getVertices();
-		float[] tcs = getTcs();
 		int[] indices = getIndices();
 		count = indices.length;
 		
@@ -36,12 +34,12 @@ public class VertexArray extends VertexArrayData {
 		GL30.glBindVertexArray(vao);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(vertices), GL15.GL_DYNAMIC_DRAW);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(getVertices()), GL15.GL_DYNAMIC_DRAW);
 		GL20.glVertexAttribPointer(Shader.VERTEX_ATTRIB, 3, GL11.GL_FLOAT, false, 0, 0);
 		GL20.glEnableVertexAttribArray(Shader.VERTEX_ATTRIB);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, tbo);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(tcs), GL15.GL_DYNAMIC_DRAW);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(getTcs()), GL15.GL_DYNAMIC_DRAW);
 		GL20.glVertexAttribPointer(Shader.TCOORD_ATTRIB, 2, GL11.GL_FLOAT, false, 0, 0);
 		GL20.glEnableVertexAttribArray(Shader.TCOORD_ATTRIB);
 		
@@ -55,7 +53,8 @@ public class VertexArray extends VertexArrayData {
 	
 	public void bind() {
 		if (!wasSetup) {
-			Console.print(WarningType.FatalError, "VertexArray was not setup!", new GLException(Reason.notSetupVertexArray));
+			Console.print(WarningType.FatalError, "VertexArray was not setup!", new GLException(Reason.NOT_SETUP_VERTEX_ARRAY)).printStackTrace();
+			return;
 		}
 		
 		GL30.glBindVertexArray(vao);
